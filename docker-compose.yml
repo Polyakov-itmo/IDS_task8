@@ -2,6 +2,7 @@ version: '3.0'
 
 services:
   main:
+    image: winnden/server
     container_name: server
     build:
       context: .
@@ -18,8 +19,8 @@ services:
       - postgres
     restart: always
   postgres:
+    image: winnden/postgres
     container_name: postgres
-    image: postgres:12
     env_file:
       - .production.env
     environment:
