@@ -2,14 +2,12 @@ FROM node:12.13-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY /*.json ./
 
 RUN npm install
 
-RUN npm run build
-
 COPY . .
 
-COPY ./dist ./dist
+RUN npm run build
 
-CMD ["npm", "run", "start:prod"]
+CMD [ "node", "dist/main.js" ]
