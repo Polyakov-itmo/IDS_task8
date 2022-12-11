@@ -20,6 +20,7 @@ export class LogService {
     return result;
   }
 
+  
   async logInfo() {
     const logs = await this.logRepository.findAll();
     logs.map(log => console.log(log))
