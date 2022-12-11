@@ -6,8 +6,10 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm run build
+
 COPY . .
 
-COPY ./dist ./app/dist
+COPY ./dist ./dist
 
 CMD ["npm", "run", "start:prod"]
