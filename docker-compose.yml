@@ -20,7 +20,6 @@ services:
     restart: always
   postgres:
     image: winnden/postgres
-    container_name: postgres
     env_file:
       - .production.env
     environment:
