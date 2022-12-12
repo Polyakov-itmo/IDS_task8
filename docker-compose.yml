@@ -4,20 +4,22 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres
+    build:
+      dockerfile: db/Dockerfile
+      context: .
     ports:
       - "5432:5432"
     env_file:
       - .production.env
     environment:
       PG_DATA: /var/lib/postgresql/data
-      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - pgdata:/var/lib/postgresql/data
-    restart: always
+    restart: on-failure
     
   main:
     image: winnden/server
-    build:
+    build: 
       context: .
     env_file:
       - .production.env
@@ -34,3 +36,7 @@ services:
 
 volumes:
   pgdata:
+
+networks:
+  docker-network:
+    driver: bridge

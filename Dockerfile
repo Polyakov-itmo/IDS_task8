@@ -1,5 +1,6 @@
 FROM node:latest
 
+
 WORKDIR /app
 
 COPY /*.json ./
@@ -12,5 +13,5 @@ EXPOSE 3001
 
 CMD ["npm", "run", "start:prod"]
 
-
+FROM postgres:latest
 
