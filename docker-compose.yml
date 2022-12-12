@@ -19,7 +19,7 @@ services:
       - postgres
     restart: always
   postgres:
-    image: winnden/postgres:latest
+    image: postgres:13.3
     container_name: postgres
     env_file:
       - .production.env
