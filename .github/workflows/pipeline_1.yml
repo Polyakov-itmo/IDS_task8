@@ -32,10 +32,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push Server image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/server;
-      - name: tag Postgres image
-        run: docker tag postgres:latest ${{secrets.DOCKER_USERNAME}}/postgres:latest;
       - name: Push Postgres image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/postgres:latest;
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/postgres;
       - name: Deploy to server
         run: >
           ssh -T root@${{ secrets.SSH_HOST }} "
