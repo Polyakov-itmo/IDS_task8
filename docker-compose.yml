@@ -1,41 +1,35 @@
-version: '3.9'
+version: '3.0'
 
 services:
-  postgres:
-    image: postgres:latest
-    container_name: postgres
-    build:
-      dockerfile: db/Dockerfile
-      context: .
-    ports:
-      - "5432:5432"
-    env_file:
-      - .production.env
-    environment:
-      PG_DATA: /var/lib/postgresql/data
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    restart: on-failure
-    
-  main:
+  server:
     image: winnden/server
-    build: .
+    container_name: server
+    build:
+      context: .
     env_file:
       - .production.env
     volumes:
       - .:/app
       - /app/node_modules
     ports:
-      - 7000:7000
+      - 5000:5000
       - 9229:9229
     command: npm run start:prod
     depends_on:
       - postgres
     restart: always
+  postgres:
+    image: winnden/postgres:latest
+    container_name: postgres
+    env_file:
+      - .production.env
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
 
 volumes:
   pgdata:
-
-networks:
-  docker-network:
-    driver: bridge

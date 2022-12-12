@@ -32,8 +32,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push Server image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/server;
+      - name: tag Postgres image
+        run: docker tag postgres:latest ${{secrets.DOCKER_USERNAME}}/postgres:latest;
       - name: Push Postgres image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/postgres;
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/postgres:latest;
       - name: Deploy to server
         run: >
           ssh -T root@${{ secrets.SSH_HOST }} "
@@ -41,7 +43,7 @@ jobs:
           docker stop $(docker ps -a -q);
           docker pull ${{ secrets.DOCKER_USERNAME }}/server;
           docker pull ${{ secrets.DOCKER_USERNAME }}/postgres;
-          docker run -d -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} -p 5432:5432 ${{ secrets.DOCKERHUB_USERNAME }}/itmo-postgres;
-          docker run -d -e ITMO_TASK_DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@0.0.0.0:${{ secrets.POSTGRES_PORT }}/counter_info -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/itmo-counter;
+          docker run -d ${{ secrets.DOCKER_USERNAME }}/server:latest;
+          docker run -d ${{ secrets.DOCKER_USERNAME }}/postgres:latest;
           exit
           "
