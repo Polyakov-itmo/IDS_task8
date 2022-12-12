@@ -19,8 +19,7 @@ services:
     
   main:
     image: winnden/server
-    build: 
-      context: .
+    build: .
     env_file:
       - .production.env
     volumes:
