@@ -4,6 +4,7 @@ import { CreateLogDto } from './logs/dto/create-log-dto'
 import { LogService } from './logs/logs.service'
 import { Request, Response } from 'express'
 
+
 @Controller()
 export class AppController {
   constructor(
